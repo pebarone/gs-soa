@@ -60,4 +60,9 @@ public class UsuarioRepository : IUsuarioRepository
     {
         return await _context.Usuarios.AnyAsync(u => u.Id == id);
     }
+
+    public async Task<int> CountAsync()
+    {
+        return await _context.Usuarios.CountAsync();
+    }
 }

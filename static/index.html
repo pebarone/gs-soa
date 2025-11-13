@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <!-- Navigation Header -->
@@ -25,8 +26,10 @@
                 </div>
                 <ul class="nav-menu">
                     <li><a href="#" data-page="home" class="nav-link active">Início</a></li>
+                    <li><a href="#" data-page="dashboard" class="nav-link">Dashboard</a></li>
                     <li><a href="#" data-page="usuarios" class="nav-link">Usuários</a></li>
                     <li><a href="#" data-page="trilhas" class="nav-link">Trilhas</a></li>
+                    <li><a href="#" data-page="matriculas" class="nav-link">Matrículas</a></li>
                 </ul>
             </nav>
         </div>
@@ -152,6 +155,49 @@
                 </div>
 
                 <div id="trilhas-grid" class="cards-grid"></div>
+            </div>
+        </section>
+
+        <!-- Matriculas Page -->
+        <section id="matriculas-page" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Matrículas</h1>
+                        <p class="page-description">Gerencie as inscrições dos usuários nas trilhas</p>
+                    </div>
+                    <button class="btn btn-primary" data-action="new-matricula">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Nova Inscrição
+                    </button>
+                </div>
+
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text" id="search-matriculas" class="search-input" placeholder="Buscar matrículas...">
+                </div>
+
+                <div id="matriculas-grid" class="cards-grid"></div>
+            </div>
+        </section>
+
+        <!-- Dashboard Page -->
+        <section id="dashboard-page" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Dashboard</h1>
+                        <p class="page-description">Estatísticas e métricas da plataforma</p>
+                    </div>
+                </div>
+
+                <div id="dashboard-container"></div>
             </div>
         </section>
     </main>

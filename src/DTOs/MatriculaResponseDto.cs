@@ -1,33 +1,19 @@
-using System.ComponentModel.DataAnnotations;
+namespace GsSoa.DTOs;
 
-namespace GsSoa.Models;
-
-public class Matricula
+public class MatriculaResponseDto
 {
     public long Id { get; set; }
-
-    [Required]
     public long UsuarioId { get; set; }
-
-    [Required]
+    public string UsuarioNome { get; set; } = string.Empty;
+    public string UsuarioEmail { get; set; } = string.Empty;
     public long TrilhaId { get; set; }
-
-    [Required]
+    public string TrilhaNome { get; set; } = string.Empty;
+    public string TrilhaNivel { get; set; } = string.Empty;
+    public int TrilhaCargaHoraria { get; set; }
     public DateTime DataInscricao { get; set; }
-
-    [Required]
-    [MaxLength(50)]
     public string Status { get; set; } = string.Empty;
-
     public DateTime? DataConclusao { get; set; }
-
     public int? ProgressoPercentual { get; set; }
-
     public DateTime? DataCancelamento { get; set; }
-
     public int? Avaliacao { get; set; }
-
-    // Navegação
-    public Usuario Usuario { get; set; } = null!;
-    public Trilha Trilha { get; set; } = null!;
 }

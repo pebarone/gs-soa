@@ -60,6 +60,10 @@ public class AppDbContext : DbContext
             entity.Property(e => e.TrilhaId).HasColumnName("TRILHA_ID");
             entity.Property(e => e.DataInscricao).HasColumnName("DATA_INSCRICAO");
             entity.Property(e => e.Status).HasColumnName("STATUS");
+            entity.Property(e => e.DataConclusao).HasColumnName("DATA_CONCLUSAO");
+            entity.Property(e => e.ProgressoPercentual).HasColumnName("PROGRESSO_PERCENTUAL");
+            entity.Property(e => e.DataCancelamento).HasColumnName("DATA_CANCELAMENTO");
+            entity.Property(e => e.Avaliacao).HasColumnName("AVALIACAO");
         });
 
         modelBuilder.Entity<TrilhaCompetencia>(entity =>

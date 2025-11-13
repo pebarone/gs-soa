@@ -11,4 +11,5 @@ public interface IUsuarioRepository
     Task<Usuario> UpdateAsync(Usuario usuario);
     Task DeleteAsync(long id);
     Task<bool> ExistsAsync(long id);
+    Task<int> CountAsync();
 }

@@ -10,4 +10,5 @@ public interface ITrilhaRepository
     Task<Trilha> UpdateAsync(Trilha trilha);
     Task DeleteAsync(long id);
     Task<bool> ExistsAsync(long id);
+    Task<int> CountAsync();
 }

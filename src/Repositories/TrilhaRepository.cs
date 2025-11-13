@@ -54,4 +54,9 @@ public class TrilhaRepository : ITrilhaRepository
     {
         return await _context.Trilhas.AnyAsync(t => t.Id == id);
     }
+
+    public async Task<int> CountAsync()
+    {
+        return await _context.Trilhas.CountAsync();
+    }
 }

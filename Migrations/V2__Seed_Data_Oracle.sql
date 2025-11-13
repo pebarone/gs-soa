@@ -120,23 +120,29 @@ INSERT INTO TRILHAS_USUARIOS (nome, email, area_atuacao, nivel_carreira, data_ca
 ('João Pereira', 'joao.pereira@email.com', 'Análise de Dados', 'Em transição', TO_DATE('2025-03-20', 'YYYY-MM-DD'));
 
 -- Inserir matrículas de exemplo
-INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status) VALUES
-(1, 1, TO_DATE('2025-01-20', 'YYYY-MM-DD'), 'ATIVA');
+INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status, progresso_percentual) VALUES
+(1, 1, TO_DATE('2025-01-20', 'YYYY-MM-DD'), 'ATIVA', 65);
 
-INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status) VALUES
-(1, 3, TO_DATE('2025-02-01', 'YYYY-MM-DD'), 'ATIVA');
+INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status, progresso_percentual) VALUES
+(1, 3, TO_DATE('2025-02-01', 'YYYY-MM-DD'), 'ATIVA', 30);
 
-INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status) VALUES
-(2, 5, TO_DATE('2025-02-15', 'YYYY-MM-DD'), 'ATIVA');
+INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status, progresso_percentual) VALUES
+(2, 5, TO_DATE('2025-02-15', 'YYYY-MM-DD'), 'ATIVA', 80);
 
-INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status) VALUES
-(2, 7, TO_DATE('2025-02-20', 'YYYY-MM-DD'), 'CONCLUIDA');
+INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status, data_conclusao, progresso_percentual, avaliacao) VALUES
+(2, 7, TO_DATE('2025-02-20', 'YYYY-MM-DD'), 'CONCLUIDA', TO_DATE('2025-04-15', 'YYYY-MM-DD'), 100, 5);
 
-INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status) VALUES
-(3, 1, TO_DATE('2025-03-10', 'YYYY-MM-DD'), 'ATIVA');
+INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status, progresso_percentual) VALUES
+(3, 1, TO_DATE('2025-03-10', 'YYYY-MM-DD'), 'ATIVA', 45);
 
-INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status) VALUES
-(4, 2, TO_DATE('2025-03-25', 'YYYY-MM-DD'), 'ATIVA');
+INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status, progresso_percentual) VALUES
+(4, 2, TO_DATE('2025-03-25', 'YYYY-MM-DD'), 'ATIVA', 20);
+
+INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status, data_cancelamento, progresso_percentual) VALUES
+(3, 4, TO_DATE('2025-02-05', 'YYYY-MM-DD'), 'CANCELADA', TO_DATE('2025-02-28', 'YYYY-MM-DD'), 15);
+
+INSERT INTO TRILHAS_MATRICULAS (usuario_id, trilha_id, data_inscricao, status, data_conclusao, progresso_percentual, avaliacao) VALUES
+(4, 6, TO_DATE('2025-01-10', 'YYYY-MM-DD'), 'CONCLUIDA', TO_DATE('2025-02-20', 'YYYY-MM-DD'), 100, 4);
 
 -- Commit das alterações
 COMMIT;
