@@ -2,19 +2,21 @@
 
 API RESTful com versionamento para plataforma de capacitação profissional voltada ao futuro do trabalho 2030+.
 
-## 🎯 Descrição
+## Descrição
 
 Este projeto implementa uma plataforma completa de upskilling e reskilling profissional com funcionalidades de gerenciamento de usuários, trilhas de aprendizagem, matrículas e estatísticas. A API utiliza versionamento para permitir evolução gradual e compatibilidade.
 
-## 🚀 Tecnologias
+## Tecnologias
 
 - **ASP.NET Core 8.0** - Framework web moderno e performático
 - **Entity Framework Core 8.0** - ORM para acesso a dados
 - **Oracle Database** - Banco de dados relacional enterprise
+- **Docker** - Containerização da aplicação
+- **Docker Compose** - Orquestração de containers
 - **Swagger/OpenAPI** - Documentação interativa da API
 - **Microsoft.AspNetCore.Mvc.Versioning** - Versionamento de API
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 gs-profissoes/
@@ -45,17 +47,92 @@ gs-profissoes/
 └── postman_collection.json
 ```
 
-## Configuração
+## Configuração e Execução
 
-### Pré-requisitos
+### Opção 1: Executar com Docker (Recomendado)
+
+#### Pré-requisitos
+
+- Docker 20.10 ou superior
+- Docker Compose 2.0 ou superior
+
+#### Passos para Execução
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/pebarone/gs-soa.git
+cd gs-soa
+```
+
+2. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env
+```
+
+Edite o arquivo `.env` com suas credenciais do Oracle Database:
+```env
+DB_CONNECTION_STRING=User Id=seu_usuario;Password=sua_senha;Data Source=seu_host:1521/seu_service
+```
+
+3. Execute a aplicação com Docker Compose:
+```bash
+docker-compose up -d
+```
+
+A aplicação estará disponível em:
+- **Frontend**: http://localhost:5000
+- **API v1**: http://localhost:5000/api/v1
+- **API v2**: http://localhost:5000/api/v2
+- **Swagger**: http://localhost:5000/api-docs
+
+#### Comandos Docker Úteis
+
+Parar a aplicação:
+```bash
+docker-compose down
+```
+
+Ver logs da aplicação:
+```bash
+docker-compose logs -f app
+```
+
+Reconstruir a imagem após mudanças no código:
+```bash
+docker-compose up -d --build
+```
+
+Executar comandos dentro do container:
+```bash
+docker-compose exec app /bin/bash
+```
+
+### Opção 2: Executar com Docker (sem Docker Compose)
+
+Build da imagem:
+```bash
+docker build -t gs-profissoes .
+```
+
+Executar o container:
+```bash
+docker run -d \
+  -p 5000:5000 \
+  -e ConnectionStrings__DefaultConnection="User Id=seu_usuario;Password=sua_senha;Data Source=seu_host:1521/seu_service" \
+  --name gs-profissoes-app \
+  gs-profissoes
+```
+
+### Opção 3: Executar Localmente (sem Docker)
+
+#### Pré-requisitos
 
 - .NET 8.0 SDK
 - Oracle Database
 
-### String de Conexão
+#### Passos para Execução
 
-Configure a string de conexão no `appsettings.json`:
-
+1. Configure a string de conexão no `appsettings.json`:
 ```json
 {
   "ConnectionStrings": {
@@ -64,10 +141,7 @@ Configure a string de conexão no `appsettings.json`:
 }
 ```
 
-### Executar Migrations
-
-Execute os scripts SQL na pasta `Migrations/` em ordem:
-
+2. Execute as migrations SQL na pasta `Migrations/` em ordem:
 ```bash
 # 1. Criar schema
 sqlplus user/password@database @Migrations/V1__Initial_Schema_Oracle.sql
@@ -76,10 +150,8 @@ sqlplus user/password@database @Migrations/V1__Initial_Schema_Oracle.sql
 sqlplus user/password@database @Migrations/V2__Seed_Data_Oracle.sql
 ```
 
-## Executar a Aplicação
-
+3. Restaure as dependências e execute a aplicação:
 ```bash
-cd src
 dotnet restore
 dotnet run
 ```
@@ -90,7 +162,36 @@ A aplicação estará disponível em:
 - **API v2**: http://localhost:5000/api/v2
 - **Swagger**: http://localhost:5000/api-docs
 
-## 📋 Versionamento de API
+## Configuração do Docker
+
+### Dockerfile
+
+O projeto utiliza build multi-estágio para otimização:
+
+- **Stage 1 (Build)**: Compila a aplicação usando SDK .NET 8.0
+- **Stage 2 (Runtime)**: Executa a aplicação usando runtime ASP.NET Core 8.0
+
+Características de segurança:
+- Execução como usuário não-root (appuser)
+- Porta não-privilegiada (5000)
+- Health check configurado
+- Variáveis de ambiente para produção
+
+### Docker Compose
+
+O arquivo `docker-compose.yml` configura:
+
+- **Aplicação**: Container principal com a API
+- **Rede isolada**: Comunicação segura entre containers
+- **Health checks**: Monitoramento da saúde da aplicação
+- **Limites de recursos**: CPU e memória controlados
+- **Logs**: Rotação automática de logs
+- **Security hardening**: Capabilidades restritas e filesystem read-only
+
+Opcionalmente, pode incluir:
+- **Oracle Database**: Container local para desenvolvimento (comentado por padrão)
+
+## Versionamento de API
 
 A API utiliza versionamento de URL para manter compatibilidade e permitir evolução gradual:
 
@@ -104,7 +205,7 @@ A API utiliza versionamento de URL para manter compatibilidade e permitir evolu�
 - Documentação separada no Swagger para cada versão
 - Endpoints v1 mantidos para compatibilidade
 
-## 📍 Endpoints da API
+## Endpoints da API
 
 ### API v1 - Usuários
 
@@ -149,7 +250,7 @@ A API utiliza versionamento de URL para manter compatibilidade e permitir evolu�
 }
 ```
 
-### API v2 - Matrículas 🆕
+### API v2 - Matrículas
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -208,7 +309,7 @@ A API utiliza versionamento de URL para manter compatibilidade e permitir evolu�
 - `CONCLUIDA`: Trilha finalizada com sucesso
 - `CANCELADA`: Matrícula cancelada pelo usuário
 
-### API v2 - Estatísticas 🆕
+### API v2 - Estatísticas
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -237,7 +338,7 @@ A API utiliza versionamento de URL para manter compatibilidade e permitir evolu�
 }
 ```
 
-## 🎨 Frontend
+## Frontend
 
 A aplicação inclui um frontend SPA moderno desenvolvido com HTML, CSS e JavaScript vanilla.
 
@@ -268,7 +369,7 @@ A aplicação inclui um frontend SPA moderno desenvolvido com HTML, CSS e JavaSc
 - `static/js/components.js` - Componentes UI reutilizáveis
 - `static/js/app.js` - Lógica da aplicação e gerenciamento de estado
 
-## 🔧 Tratamento de Erros
+## Tratamento de Erros
 
 A API utiliza middleware customizado (`ExceptionHandlingMiddleware`) para tratamento global de exceções, retornando respostas padronizadas:
 
@@ -285,7 +386,7 @@ A API utiliza middleware customizado (`ExceptionHandlingMiddleware`) para tratam
 - `ResourceNotFoundException`: Recurso não encontrado (404)
 - `BusinessException`: Violação de regras de negócio (422)
 
-## ✅ Validações
+## Validações
 
 ### Usuário
 
@@ -313,7 +414,7 @@ A API utiliza middleware customizado (`ExceptionHandlingMiddleware`) para tratam
   - Matrícula concluída não pode ser atualizada
   - Matrícula cancelada não pode ser concluída
 
-## 🗄️ Banco de Dados
+## Banco de Dados
 
 ### Schema Oracle
 
@@ -338,9 +439,9 @@ Todas as tabelas utilizam o prefixo `TRILHAS_` e suportam:
 - `DATA_CANCELAMENTO`: Data de cancelamento
 - `AVALIACAO`: Avaliação de 1 a 5 estrelas
 
-## 🎯 Requisitos Implementados
+## Requisitos Implementados
 
-### 1. Boas Práticas REST ✅
+### 1. Boas Práticas REST
 
 - **Status codes adequados**: 200, 201, 204, 400, 404, 422, 500
 - **Verbos HTTP corretos**: GET (leitura), POST (criação), PUT (atualização completa), PATCH (atualização parcial), DELETE (remoção)
@@ -348,7 +449,7 @@ Todas as tabelas utilizam o prefixo `TRILHAS_` e suportam:
 - **Validação de entrada** com DataAnnotations
 - **Tratamento de erros** centralizado
 
-### 2. Versionamento da API ✅
+### 2. Versionamento da API
 
 - **v1**: Endpoints de Usuários e Trilhas (`/api/v1/`)
 - **v2**: Endpoints de Matrículas e Estatísticas (`/api/v2/`)
@@ -358,7 +459,7 @@ Todas as tabelas utilizam o prefixo `TRILHAS_` e suportam:
 - **Retrocompatibilidade** com v1 mantida
 - **README atualizado** com documentação completa
 
-### 3. Integração e Persistência ✅
+### 3. Integração e Persistência
 
 - **Oracle Database** como banco de dados relacional
 - **Entity Framework Core** com DbContext configurado
@@ -367,7 +468,7 @@ Todas as tabelas utilizam o prefixo `TRILHAS_` e suportam:
 - **Service Layer** com lógica de negócio
 - **Relacionamentos** corretamente mapeados (1:N, N:N)
 
-## 📦 Dependências NuGet
+## Dependências NuGet
 
 ```xml
 <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
@@ -379,7 +480,7 @@ Todas as tabelas utilizam o prefixo `TRILHAS_` e suportam:
 <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 ```
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
 ### Matrículas (API v2)
 - Inscrever usuário em trilha
@@ -403,12 +504,12 @@ Todas as tabelas utilizam o prefixo `TRILHAS_` e suportam:
 - Visualização de taxa de conclusão
 - Stars rating para avaliações
 
-## 👨‍💻 Autor
+## Autor
 
 Desenvolvido para **Global Solution 2025 - FIAP**
 Tema: O Futuro do Trabalho - Plataforma de Upskilling/Reskilling
 
-## 📄 Licença
+## Licença
 
 Este projeto é parte de um trabalho acadêmico.
 
