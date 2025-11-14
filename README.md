@@ -6,6 +6,13 @@ API RESTful com versionamento para plataforma de capacitação profissional volt
 
 Este projeto implementa uma plataforma completa de upskilling e reskilling profissional com funcionalidades de gerenciamento de usuários, trilhas de aprendizagem, matrículas e estatísticas. A API utiliza versionamento para permitir evolução gradual e compatibilidade.
 
+O projeto conta com um deploy de imagem docker no render https://gs-profissoes.onrender.com/
+
+Para acessar a documentação Swagger, utilize a rota https://gs-profissoes.onrender.com/api-docs
+
+## Diagrama de Classes
+
+
 ## Tecnologias
 
 - **ASP.NET Core 8.0** - Framework web moderno e performático
